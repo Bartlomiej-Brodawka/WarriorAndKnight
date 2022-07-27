@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SuitTest {
+public class FightSuitTest {
 
     @Test
     @DisplayName("Battle between two Warriors - first Warrior wins")

@@ -12,4 +12,8 @@ public class Battle {
         }
         return warrior1.isAlive();
     }
+
+    public static boolean fight(Army army1, Army army2) {
+        return false;
+    }
 }

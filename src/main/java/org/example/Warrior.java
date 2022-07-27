@@ -1,17 +1,37 @@
 package org.example;
 
-public class Warrior {
+public class Warrior implements Unit, Cloneable{
 
     static final int INITIAL_HEALTH = 50;
-    private int health = INITIAL_HEALTH;
     static final int ATTACK = 5;
+    private int health;
+    private int attack;
+
+    @Override
+    public Warrior clone() {
+        try {
+            return (Warrior) super.clone();
+        } catch (CloneNotSupportedException ignored) {
+            //ignored
+        }
+        return null;
+    }
+
+    public Warrior() {
+        this(INITIAL_HEALTH, ATTACK);
+    }
+
+    protected Warrior(int health, int attack) {
+        this.health = health;
+        this.attack = attack;
+    }
 
     public boolean isAlive() {
         return health > 0;
     }
 
     public int getAttack() {
-        return ATTACK;
+        return attack;
     }
 
     int getHealth() {
