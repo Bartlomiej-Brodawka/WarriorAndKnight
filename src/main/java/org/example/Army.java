@@ -1,12 +1,12 @@
 package org.example;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.function.Supplier;
 
-public class Army {
+public class  Army {
 
-    Collection<Unit> troops = new ArrayList<Unit>();
+    List<Unit> troops = new ArrayList<Unit>();
 
     void addUnits(Unit.UnitType type, int quantity) {
         for (int i = 0; i < quantity; i++) {

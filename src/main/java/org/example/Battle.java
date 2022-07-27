@@ -14,6 +14,20 @@ public class Battle {
     }
 
     public static boolean fight(Army army1, Army army2) {
+        int i = 0;
+        int j = 0;
+
+        while(i < army1.troops.size() && j < army2.troops.size()) {
+            if(fight((Warrior) army1.troops.get(i), (Warrior) army2.troops.get(j))) {
+                ((Warrior) army1.troops.get(i)).setHealth(((Warrior) army1.troops.get(i)).getHealth());
+                j++;
+                if(j >= army2.troops.size()) return true;
+            } else {
+                ((Warrior) army2.troops.get(j)).setHealth(((Warrior) army2.troops.get(j)).getHealth());
+                i++;
+            }
+        }
         return false;
     }
+
 }

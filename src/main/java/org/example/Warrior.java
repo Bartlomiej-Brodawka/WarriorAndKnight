@@ -38,6 +38,10 @@ public class Warrior implements Unit, Cloneable{
         return health;
     }
 
+    protected void setHealth(int health) {
+        this.health = health;
+    }
+
     public void hit(Warrior enemy) {
         enemy.health -= getAttack();
     }
