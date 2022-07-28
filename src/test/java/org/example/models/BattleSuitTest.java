@@ -1,5 +1,9 @@
-package org.example;
+package org.example.models;
 
+import org.example.models.Army;
+import org.example.models.Knight;
+import org.example.models.Warrior;
+import org.example.services.Battle;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +13,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Fight between Warrior and Knight - Warrior lose")
-    void givenWarriorFightsKnights_WarriorLose() {
+    void givenWarriorFightsKnights_thenWarriorLose() {
         var carl = new Warrior();
         var jim = new Knight();
         assertFalse(Battle.fight(carl, jim));
@@ -17,7 +21,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Fight between Knight and Warrior - Knight win")
-    void givenKnightsFightsWarrior_KnightWin() {
+    void givenKnightsFightsWarrior_thenKnightWin() {
         var ramon = new Knight();
         var slevin = new Warrior();
         assertTrue(Battle.fight(ramon, slevin));
@@ -25,7 +29,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Fight between two Warriors - first Warrior is alive")
-    void givenWarriorFightsWarrior_FirstWarriorWhichAttackWins() {
+    void givenWarriorFightsWarrior_thenFirstWarriorWhichAttackWins() {
         var bob = new Warrior();
         var mars = new Warrior();
         Battle.fight(bob, mars);
@@ -34,7 +38,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Fight between Knight and Warrior - Knight is alive")
-    void givenKnightFightsWarrior_KnightIsAlive() {
+    void givenKnightFightsWarrior_thenKnightIsAlive() {
         var zeus = new Knight();
         var godKiller = new Warrior();
         Battle.fight(zeus, godKiller);
@@ -43,7 +47,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Fight between two Warriors - second Warrior lose")
-    void givenWarriorFightsWarrior_SecondWarriorWhichAttackLose() {
+    void givenWarriorFightsWarrior_thenSecondWarriorWhichAttackLose() {
         var husband = new Warrior();
         var wife = new Warrior();
         Battle.fight(husband, wife);
@@ -52,7 +56,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Fight between Warrior and Knight - Knight is alive")
-    void givenWarriorFightsKnight_KnightIsAlive() {
+    void givenWarriorFightsKnight_thenKnightIsAlive() {
         var dragon = new Warrior();
         var king = new Knight();
         Battle.fight(dragon, king);
@@ -61,7 +65,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Battle between army of 1 Warrior versus army of 2 Warriors")
-    void givenWarriorsArmyFightWarriorsArmy_SmallerArmyLose() {
+    void givenWarriorsArmyFightWarriorsArmy_thenSmallerArmyLose() {
         var army1 = new Army();
         var army2 = new Army();
         army1.addUnits(() -> new Warrior(), 1);
@@ -72,7 +76,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Battle between army of 2 Warriors versus army of 3 Warriors")
-    void givenWarriorsArmyFightWarriorsArmy_SmallerArmyLose_SecondExample() {
+    void givenWarriorsArmyFightWarriorsArmy_thenSmallerArmyLose_SecondExample() {
         var army1 = new Army();
         var army2 = new Army();
         army1.addUnits(() -> new Warrior(), 2);
@@ -83,7 +87,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Battle between army of 5 Warriors versus army of 7 Warriors")
-    void givenWarriorsArmyFightWarriorsArmy_SmallerArmyLose_ThirdExample() {
+    void givenWarriorsArmyFightWarriorsArmy_vSmallerArmyLose_ThirdExample() {
         var army1 = new Army();
         var army2 = new Army();
         army1.addUnits(() -> new Warrior(), 5);
@@ -94,7 +98,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Battle between army of 20 Warriors versus army of 21 Warriors")
-    void givenWarriorsArmyFightWarriorsArmy_FirstArmyWin() {
+    void givenWarriorsArmyFightWarriorsArmy_thenFirstArmyWin() {
         var army1 = new Army();
         var army2 = new Army();
         army1.addUnits(() -> new Warrior(), 20);
@@ -105,7 +109,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Battle between army of 10 Warriors versus army of 11 Warriors")
-    void givenWarriorsArmyFightWarriorsArmy_FirstArmyWin_SecondExample() {
+    void givenWarriorsArmyFightWarriorsArmy_thenFirstArmyWin_SecondExample() {
         var army1 = new Army();
         var army2 = new Army();
         army1.addUnits(() -> new Warrior(), 10);
@@ -116,7 +120,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Battle between army of 11 Warriors versus army of 7 Warriors")
-    void givenWarriorsArmyFightWarriorsArmy_FirstArmyWin_ThirdExample() {
+    void givenWarriorsArmyFightWarriorsArmy_thenFirstArmyWin_ThirdExample() {
         var army1 = new Army();
         var army2 = new Army();
         army1.addUnits(() -> new Warrior(), 11);
@@ -127,7 +131,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Battle between army of 3 Knights and army of 3 Warriors")
-    void givenKnightsArmyFightWarriorsArmy_ArmyOfKnightsWin() {
+    void givenKnightsArmyFightWarriorsArmy_thenArmyOfKnightsWin() {
         var myArmy = new Army();
         var enemyArmy = new Army();
         myArmy.addUnits(() -> new Knight(), 3);
@@ -138,7 +142,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Battle between army of 3 Warriors and Army of 3 Knights")
-    void givenWarriorsArmyFightKnightsArmy_ArmyOfWarriorsLose() {
+    void givenWarriorsArmyFightKnightsArmy_thenArmyOfWarriorsLose() {
         var enemyArmy = new Army();
         var myArmy = new Army();
         myArmy.addUnits(() -> new Knight(), 3);
@@ -149,7 +153,7 @@ class BattleSuitTest {
 
     @Test
     @DisplayName("Battle between mixed army and army of Warriors")
-    void givenWarriorsAndKnightsArmyFightWarriorsArmy_MixedArmyLose() {
+    void givenWarriorsAndKnightsArmyFightWarriorsArmy_thenMixedArmyLose() {
         var army3 = new Army();
         army3.addUnits(() -> new Warrior(), 20);
         army3.addUnits(() -> new Knight(), 5);

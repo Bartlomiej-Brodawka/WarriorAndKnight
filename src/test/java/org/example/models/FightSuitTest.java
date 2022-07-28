@@ -1,5 +1,8 @@
-package org.example;
+package org.example.models;
 
+import org.example.models.Knight;
+import org.example.models.Warrior;
+import org.example.services.Battle;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +12,7 @@ class FightSuitTest {
 
     @Test
     @DisplayName("Battle between two Warriors - first Warrior wins")
-    void givenWarriorFightsWarrior_SecondWarriorIsDefeatedByFirstWarrior() {
+    void givenWarriorFightsWarrior_thenSecondWarriorIsDefeatedByFirstWarrior() {
         var chuck = new Warrior();
         var bruce = new Warrior();
 
@@ -18,7 +21,7 @@ class FightSuitTest {
 
     @Test
     @DisplayName("Battle between two Warriors - first Warrior which attack is alive")
-    void givenWarriorFightsWarrior_FirstWarriorWhichAttackWins() {
+    void givenWarriorFightsWarrior_thenFirstWarriorWhichAttackWins() {
         var chuck = new Warrior();
         var bruce = new Warrior();
         Battle.fight(chuck, bruce);
@@ -27,7 +30,7 @@ class FightSuitTest {
 
     @Test
     @DisplayName("Battle between two Warriors - second Warrior which attack is dead")
-    void givenWarriorFightsWarrior_SecondWarriorWhichAttackLose() {
+    void givenWarriorFightsWarrior_thenSecondWarriorWhichAttackLose() {
         var chuck = new Warrior();
         var bruce = new Warrior();
         Battle.fight(chuck, bruce);
@@ -36,7 +39,7 @@ class FightSuitTest {
 
     @Test
     @DisplayName("Battle between Warrior and Knight - Knight wins")
-    void givenKnightsFightsWarrior_KnightsWins() {
+    void givenKnightsFightsWarrior_thenKnightsWins() {
         var carl = new Knight();
         var dave = new Warrior();
 
@@ -45,7 +48,7 @@ class FightSuitTest {
 
     @Test
     @DisplayName("Battle between Warrior and Knight - Warrior lose")
-    void givenWarriorFightsKnights_WarriorLose() {
+    void givenWarriorFightsKnights_thenWarriorLose() {
         var carl = new Knight();
         var dave = new Warrior();
 
@@ -54,7 +57,7 @@ class FightSuitTest {
 
     @Test
     @DisplayName("Knight Hits Warrior, Warrior health is reduced by 7")
-    void givenKnightHitsWarrior_WarriorHealthIsReducedByKnightAttack() {
+    void givenKnightHitsWarrior_thenWarriorHealthIsReducedByKnightAttack() {
         Knight knight = new Knight();
         Warrior warrior = new Warrior();
 
@@ -67,7 +70,7 @@ class FightSuitTest {
 
     @Test
     @DisplayName("Warrior Hits Knights, Knights health is reduced by 5")
-    void givenWarriorHitsKnights_KnightsHealthIsReducedByWarriorAttack() {
+    void givenWarriorHitsKnights_thenKnightsHealthIsReducedByWarriorAttack() {
         Knight knight = new Knight();
         Warrior warrior = new Warrior();
 

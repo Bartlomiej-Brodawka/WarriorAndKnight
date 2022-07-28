@@ -1,7 +1,12 @@
-package org.example;
+package org.example.services;
+
+import org.example.models.Army;
+import org.example.models.Warrior;
 
 public class Battle {
-    private Battle() {}
+    private Battle() {
+        throw new IllegalStateException();
+    }
 
     public static boolean fight(Warrior warrior1, Warrior warrior2) {
         while (warrior1.isAlive() && warrior2.isAlive()) {
@@ -17,10 +22,10 @@ public class Battle {
         int i = 0;
         int j = 0;
 
-        while(i < army1.troops.size() && j < army2.troops.size()) {
-            if(fight((Warrior) army1.troops.get(i), (Warrior) army2.troops.get(j))) {
+        while(i < army1.getTroops().size() && j < army2.getTroops().size()) {
+            if(fight((Warrior) army1.getTroops().get(i), (Warrior) army2.getTroops().get(j))) {
                 j++;
-                if(j >= army2.troops.size()) return true;
+                if(j >= army2.getTroops().size()) return true;
             } else {
                 i++;
             }

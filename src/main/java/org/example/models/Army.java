@@ -1,4 +1,4 @@
-package org.example;
+package org.example.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 public class  Army {
 
-    List<Unit> troops = new ArrayList<Unit>();
+    List<Unit> troops = new ArrayList<>();
 
     void addUnits(Unit.UnitType type, int quantity) {
         for (int i = 0; i < quantity; i++) {
@@ -26,16 +26,7 @@ public class  Army {
         }
     }
 
-    public static  void main(String[] args) {
-        var army = new Army();
-        army.addUnits(() -> new Warrior(), 10);
-        army.addUnits(Warrior::new, 10);
-        Warrior prototype = new Warrior();
-        army.addUnits(prototype::clone, 10);
-        army.addUnits(() -> prototype.clone(), 10);
-        army.addUnits(() ->
-                (Warrior) Unit.newUnit(Unit.UnitType.WARRIOR), 10);
-
-        army.addUnits(new Knight(), 3);
+    public List<Unit> getTroops() {
+        return troops;
     }
 }
