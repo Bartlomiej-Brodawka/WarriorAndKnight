@@ -6,7 +6,6 @@ public class Warrior implements Unit, Cloneable{
     public static final int ATTACK = 5;
     private int health;
     private int attack;
-    private int defense;
 
     @Override
     public Warrior clone() {
@@ -27,12 +26,6 @@ public class Warrior implements Unit, Cloneable{
         this.attack = attack;
     }
 
-    protected Warrior(int health, int attack, int defense) {
-        this.health = health;
-        this.attack = attack;
-        this.defense = defense;
-    }
-
     public boolean isAlive() {
         return health > 0;
     }
@@ -44,14 +37,16 @@ public class Warrior implements Unit, Cloneable{
     int getHealth() {
         return health;
     }
-    int getDefense() {
-        return defense;
+
+    void setHealth(int health) {
+        this.health = health;
     }
 
     public void hit(Warrior enemy) {
-        if(enemy.defense > 0 && (getAttack() - enemy.defense) > 0) {
-            enemy.health = enemy.health - (getAttack() - enemy.defense);
-        } else if (enemy.defense < 0){
+        if(enemy instanceof Defender defender && getAttack() > Defender.DEFENSE) {
+            enemy.health = enemy.health -(getAttack() - defender.getDefense());
+        }
+        if(!(enemy instanceof Defender)) {
             enemy.health -= getAttack();
         }
     }
