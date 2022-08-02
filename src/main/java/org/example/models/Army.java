@@ -50,10 +50,11 @@ public class  Army {
     }
 
     //fluent interface example
-    void addUnits(Supplier<Warrior> factory, int quantity) {
+    Army addUnits(Supplier<Warrior> factory, int quantity) {
         for (int i = 0; i < quantity; i++) {
             troops.add(factory.get());
         }
+        return this;
     }
 
     //reflection example
