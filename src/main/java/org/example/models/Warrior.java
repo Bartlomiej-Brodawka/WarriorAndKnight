@@ -1,6 +1,9 @@
 package org.example.models;
 
-public class Warrior implements Unit, Cloneable{
+import org.example.models.interfaces.IWarrior;
+import org.example.models.interfaces.Unit;
+
+public class Warrior implements Unit, Cloneable, IWarrior {
 
     public static final int INITIAL_HEALTH = 50;
     public static final int ATTACK = 5;
@@ -25,7 +28,7 @@ public class Warrior implements Unit, Cloneable{
         this.health = health;
         this.attack = attack;
     }
-
+    @Override
     public boolean isAlive() {
         return health > 0;
     }
@@ -34,7 +37,7 @@ public class Warrior implements Unit, Cloneable{
         return attack;
     }
 
-    int getHealth() {
+    public int getHealth() {
         return health;
     }
 
@@ -42,12 +45,8 @@ public class Warrior implements Unit, Cloneable{
         this.health = health;
     }
 
-    public void hit(Warrior enemy) {
-        if(enemy instanceof Defender defender && getAttack() > Defender.DEFENSE) {
-            enemy.health = enemy.health -(getAttack() - defender.getDefense());
-        }
-        if(!(enemy instanceof Defender)) {
-            enemy.health -= getAttack();
-        }
+    @Override
+    public void reduceHealthBasedOnDamage(int damage) {
+        setHealth(getHealth() - damage);
     }
 }

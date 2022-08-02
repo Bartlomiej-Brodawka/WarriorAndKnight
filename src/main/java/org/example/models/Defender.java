@@ -1,6 +1,9 @@
 package org.example.models;
 
-public class Defender extends Warrior{
+import org.example.models.interfaces.CanAttack;
+import org.example.models.interfaces.HasDefence;
+
+public class Defender extends Warrior implements HasDefence {
     public static final int INITIAL_HEALTH = 60;
     public static final int ATTACK = 3;
     public static final int DEFENSE = 2;
@@ -11,13 +14,15 @@ public class Defender extends Warrior{
         this.defense = DEFENSE;
     }
 
+    @Override
     public int getDefense() {
         return defense;
     }
 
-    public void hit(Defender enemy) {
-        if((getAttack() - enemy.defense) > 0) {
-            enemy.setHealth(enemy.getHealth() -(getAttack() - enemy.defense));
-        }
+    @Override
+    public void receiveHit(CanAttack damageDealer) {
+        super.receiveHit(() ->
+                Math.max(0, damageDealer.getAttack() - getDefense())
+        );
     }
 }
