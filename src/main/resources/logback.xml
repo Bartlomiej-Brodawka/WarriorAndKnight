@@ -3,7 +3,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} %green([%thread]) %-5level %logger{5} - %msg%n</pattern>
+            <pattern>%-5level %logger{5} - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -11,6 +11,8 @@
         <appender-ref ref="STDOUT" />
     </root>
 
+    <logger name="org.example.models.Defender" level="trace"/>
     <logger name="org.example.models.Warrior" level="trace"/>
+    <logger name="org.example.models.Vampire" level="trace"/>
 
 </configuration>

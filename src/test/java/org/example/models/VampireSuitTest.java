@@ -155,4 +155,26 @@ class VampireSuitTest {
                         true)
         );
     }
+
+    @Test
+    @DisplayName("Vampire with 39 points of health hits a Warrior - Vampire heals itself no more than 40")
+    void givenVampireWith39PointsOfHealthHitsWarrior_thanHealsItselfNoMoreThanItsInitialHealthValue() {
+        var vampire = new Vampire();
+        vampire.setHealth(39);
+        var warrior = new Warrior();
+        vampire.hit(warrior);
+        assertEquals(Vampire.INITIAL_HEALTH, vampire.getHealth());
+    }
+
+    @Test
+    @DisplayName("Vampire with 37 points of health hits a Warrior with 1 point of health - Vampire heals itself to 39 points of health")
+    void givenVampireWith37PointsOfHealthHitsWarriorWith1PointOfHealth_thenHealsItself() {
+        var vampire = new Vampire();
+        vampire.setHealth(37);
+        var warrior = new Warrior();
+        warrior.setHealth(1);
+        vampire.hit(warrior);
+
+        assertEquals(39, vampire.getHealth());
+    }
 }

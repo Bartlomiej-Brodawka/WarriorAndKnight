@@ -14,9 +14,9 @@ public class Battle {
     }
 
     public static boolean fight(IWarrior warrior1, IWarrior warrior2) {
-        log.debug("Duel between {} and {} begins!", warrior1, warrior2);
-        log.debug("{} warrior stats: Health {}, Attack {}", warrior1, warrior1.getHealth(), warrior1.getAttack());
-        log.debug("{} warrior stats: Health {}, Attack {}", warrior2, warrior2.getHealth(), warrior2.getAttack());
+        log.debug("Duel between {} and {} begins!", warrior1.getClass().getSimpleName(), warrior2.getClass().getSimpleName());
+        log.debug("{} stats: Health {}, Attack {}", warrior1.getClass().getSimpleName(), warrior1.getHealth(), warrior1.getAttack());
+        log.debug("{} stats: Health {}, Attack {}", warrior2.getClass().getSimpleName(), warrior2.getHealth(), warrior2.getAttack());
 
         while (warrior1.isAlive() && warrior2.isAlive()) {
             warrior1.hit(warrior2);
@@ -24,17 +24,29 @@ public class Battle {
                 warrior2.hit(warrior1);
             }
         }
-        log.debug("Duel between is over! {} warrior win with stats: Health {}", warrior1, warrior1.getHealth());
+        if(warrior1.isAlive()) {
+            log.debug("Duel is over! {} win with stats: Health {}", warrior1.getClass().getSimpleName(), warrior1.getHealth());
+        } else {
+            log.debug("Duel is over! {} win with stats: Health {}", warrior2.getClass().getSimpleName(), warrior2.getHealth());
+        }
+
         return warrior1.isAlive();
     }
 
     public static boolean fight(Army army1, Army army2) {
+        log.debug("Battle between armies has began");
         var it1 = army1.firstAlive();
         var it2 = army2.firstAlive();
 
 
         while(it1.hasNext() && it2.hasNext()) {
             fight(it1.next(), it2.next());
+        }
+
+        if(it1.hasNext()) {
+            log.debug("First army win the battle.");
+        } else {
+            log.debug("Second army win the battle.");
         }
 
         return  it1.hasNext();
