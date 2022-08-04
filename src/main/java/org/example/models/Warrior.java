@@ -1,9 +1,9 @@
-package org.example;
+package org.example.models;
 
 public class Warrior implements Unit, Cloneable{
 
-    static final int INITIAL_HEALTH = 50;
-    static final int ATTACK = 5;
+    public static final int INITIAL_HEALTH = 50;
+    public static final int ATTACK = 5;
     private int health;
     private int attack;
 

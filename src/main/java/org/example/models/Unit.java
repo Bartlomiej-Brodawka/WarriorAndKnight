@@ -1,9 +1,9 @@
-package org.example;
+package org.example.models;
 
 public interface Unit {
 
     enum UnitType {
-        KNIGHT, WARRIOR, OTHER;
+        KNIGHT, WARRIOR;
     }
 
     static Unit newUnit(UnitType type) {
