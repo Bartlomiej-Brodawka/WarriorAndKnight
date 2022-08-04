@@ -1,6 +1,5 @@
 package org.example.models;
 
-import org.example.models.interfaces.Unit;
 import org.example.services.Battle;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,10 +33,10 @@ class DefenderSuitTest {
         var army1 = new Army();
         var army2 = new Army();
 
-        army1.addUnits(Unit.UnitType.WARRIOR, 5);
-        army1.addUnits(Unit.UnitType.DEFENDER, 4);
-        army1.addUnits(Unit.UnitType.DEFENDER, 5);
-        army2.addUnits(Unit.UnitType.WARRIOR, 4);
+        army1.addUnits(Warrior::new, 5);
+        army1.addUnits(Defender::new, 4);
+        army1.addUnits(Defender::new, 5);
+        army2.addUnits(Warrior::new, 4);
 
         assertTrue(Battle.fight(army1, army2));
     }
@@ -48,10 +47,10 @@ class DefenderSuitTest {
         var army1 = new Army();
         var army2 = new Army();
 
-        army1.addUnits(Unit.UnitType.WARRIOR, 5);
-        army1.addUnits(Unit.UnitType.DEFENDER, 20);
-        army2.addUnits(Unit.UnitType.WARRIOR, 21);
-        army1.addUnits(Unit.UnitType.DEFENDER, 4);
+        army1.addUnits(Warrior::new, 5);
+        army1.addUnits(Defender::new, 20);
+        army2.addUnits(Warrior::new, 21);
+        army1.addUnits(Defender::new, 4);
 
         assertTrue(Battle.fight(army1, army2));
     }
@@ -62,10 +61,10 @@ class DefenderSuitTest {
         var army1 = new Army();
         var army2 = new Army();
 
-        army1.addUnits(Unit.UnitType.WARRIOR, 10);
-        army1.addUnits(Unit.UnitType.DEFENDER, 5);
-        army2.addUnits(Unit.UnitType.DEFENDER, 5);
-        army1.addUnits(Unit.UnitType.WARRIOR, 10);
+        army1.addUnits(Warrior::new, 10);
+        army1.addUnits(Defender::new, 5);
+        army2.addUnits(Defender::new, 5);
+        army1.addUnits(Warrior::new, 10);
 
         assertTrue(Battle.fight(army1, army2));
     }
@@ -76,10 +75,10 @@ class DefenderSuitTest {
         var army1 = new Army();
         var army2 = new Army();
 
-        army1.addUnits(Unit.UnitType.WARRIOR, 2);
-        army1.addUnits(Unit.UnitType.DEFENDER, 1);
-        army2.addUnits(Unit.UnitType.WARRIOR, 1);
-        army1.addUnits(Unit.UnitType.DEFENDER, 5);
+        army1.addUnits(Warrior::new, 2);
+        army1.addUnits(Defender::new, 1);
+        army2.addUnits(Warrior::new, 1);
+        army1.addUnits(Defender::new, 5);
 
         assertTrue(Battle.fight(army1, army2));
     }

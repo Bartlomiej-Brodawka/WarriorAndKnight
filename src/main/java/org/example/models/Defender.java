@@ -1,7 +1,7 @@
 package org.example.models;
 
-import org.example.models.interfaces.CanAttack;
 import org.example.models.interfaces.HasDefence;
+import org.example.models.interfaces.IDamage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,11 +24,10 @@ public class Defender extends Warrior implements HasDefence {
     }
 
     @Override
-    public void receiveHit(CanAttack damageDealer) {
+    public void receiveHit(IDamage damage) {
         log.trace("Defender has {} points of defense. Reduce damage to {} points.",
-                getDefense(), damageDealer.getAttack()-getDefense());
-        super.receiveHit(() ->
-                Math.max(0, damageDealer.getAttack() - getDefense())
-        );
+                getDefense(), damage.hitPoints()-getDefense());
+        setHealth(getHealth() -(Math.max(0, (damage.hitPoints() - getDefense()))));
+        log.trace("{} receive {} points of damage. {} points of life left.", this.getClass().getSimpleName(), damage.hitPoints()-getDefense(), this.getHealth());
     }
 }

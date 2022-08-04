@@ -1,6 +1,6 @@
 package org.example.models;
 
-import org.example.models.interfaces.Unit;
+import org.example.models.interfaces.IWarrior;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,13 +10,13 @@ import java.util.function.Supplier;
 
 public class  Army {
 
-    List<Warrior> troops = new ArrayList<>();
+    List<IWarrior> troops = new ArrayList<>();
 
-    public Iterator<Warrior> firstAlive() {
+    public Iterator<IWarrior> firstAlive() {
         return new FirstAliveIterator();
     }
 
-    private class FirstAliveIterator implements Iterator<Warrior> {
+    private class FirstAliveIterator implements Iterator<IWarrior> {
         int cursor = 0;
         @Override
         public boolean hasNext() {
@@ -27,7 +27,7 @@ public class  Army {
         }
 
         @Override
-        public Warrior next() {
+        public IWarrior next() {
             if(!hasNext()){
                 throw  new NoSuchElementException();
             }
@@ -35,39 +35,21 @@ public class  Army {
         }
     }
 
-    //enum example
-    void addUnits(Unit.UnitType type, int quantity) {
-        for (int i = 0; i < quantity; i++) {
-            troops.add((Warrior) Unit.newUnit(type));
-        }
-    }
-
-    //cloning example
-    void addUnits(Warrior prototype, int quantity) {
-        for (int i = 0; i < quantity; i++) {
-            troops.add(prototype.clone());
-        }
-    }
-
-    //fluent interface example
-    Army addUnits(Supplier<Warrior> factory, int quantity) {
-        for (int i = 0; i < quantity; i++) {
-            troops.add(factory.get());
+    public Army lineup() {
+        for( int i = 1; i < troops.size(); i++) {
+            troops.get(i-1).setWarriorBehind(troops.get(i));
         }
         return this;
     }
 
-    //reflection example
-    public void addUnits(Class<? extends Unit> cls, int quantity){
-        try {
-            var constractor =  cls.getDeclaredConstructor();
-            for(int i=0; i< quantity; i++) {
-                var o = constractor.newInstance();
-                troops.add((Warrior) o);
+    Army addUnits(Supplier<Warrior> factory, int quantity) {
+        for (int i = 0; i < quantity; i++) {
+            IWarrior next = factory.get();
+            if(!troops.isEmpty()) {
+                troops.get(troops.size() - 1).setWarriorBehind(next);
             }
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
+            troops.add(next);
         }
+        return this;
     }
-
 }

@@ -1,5 +1,6 @@
 package org.example.models;
 
+import org.example.models.interfaces.IDamage;
 import org.example.models.interfaces.IWarrior;
 import org.example.models.interfaces.Unit;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ public class Warrior implements Unit, Cloneable, IWarrior {
     public static final int ATTACK = 5;
     private int health;
     private int attack;
+    private IWarrior warriorBehind;
     private static final Logger log = LoggerFactory.getLogger(Warrior.class);
 
     @Override
@@ -49,8 +51,25 @@ public class Warrior implements Unit, Cloneable, IWarrior {
     }
 
     @Override
-    public void reduceHealthBasedOnDamage(int damage) {
-        setHealth(getHealth() - damage);
-        log.trace("{} receive {} points of damage. {} points of life left.", this.getClass().getSimpleName(), damage, this.getHealth());
+    public void hit(IWarrior opponent) {
+        opponent.receiveHit(
+                new SimpleDamage(getAttack(), this)
+        );
+    }
+
+    @Override
+    public void receiveHit(IDamage damage) {
+        health -= damage.hitPoints();
+        log.trace("{} receive {} points of damage. {} points of life left.", this.getClass().getSimpleName(), damage.hitPoints(), this.getHealth());
+    }
+
+    @Override
+    public IWarrior getWarriorBehind() {
+        return warriorBehind;
+    }
+
+    @Override
+    public void setWarriorBehind(IWarrior warrior) {
+        warriorBehind = warrior;
     }
 }

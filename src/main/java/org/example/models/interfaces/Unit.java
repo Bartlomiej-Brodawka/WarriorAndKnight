@@ -1,14 +1,11 @@
 package org.example.models.interfaces;
 
-import org.example.models.Defender;
-import org.example.models.Knight;
-import org.example.models.Vampire;
-import org.example.models.Warrior;
+import org.example.models.*;
 
 public interface Unit {
 
     enum UnitType {
-        KNIGHT, WARRIOR, DEFENDER, VAMPIRE;
+        KNIGHT, WARRIOR, DEFENDER, VAMPIRE, LANCER;
     }
 
     static Unit newUnit(UnitType type) {
@@ -17,6 +14,7 @@ public interface Unit {
             case KNIGHT -> new Knight();
             case DEFENDER -> new Defender();
             case VAMPIRE -> new Vampire();
+            case LANCER -> new Lancer();
             default -> throw new IllegalArgumentException();
         };
     }

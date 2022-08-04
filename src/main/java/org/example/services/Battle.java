@@ -24,11 +24,8 @@ public class Battle {
                 warrior2.hit(warrior1);
             }
         }
-        if(warrior1.isAlive()) {
-            log.debug("Duel is over! {} win with stats: Health {}", warrior1.getClass().getSimpleName(), warrior1.getHealth());
-        } else {
-            log.debug("Duel is over! {} win with stats: Health {}", warrior2.getClass().getSimpleName(), warrior2.getHealth());
-        }
+
+        log.debug("Duel is over! {} win with stats: Health {}", (warrior1.isAlive() ? warrior1 : warrior2).getClass().getSimpleName(), (warrior1.isAlive() ? warrior1 : warrior2).getHealth());
 
         return warrior1.isAlive();
     }
@@ -38,16 +35,11 @@ public class Battle {
         var it1 = army1.firstAlive();
         var it2 = army2.firstAlive();
 
-
         while(it1.hasNext() && it2.hasNext()) {
             fight(it1.next(), it2.next());
         }
 
-        if(it1.hasNext()) {
-            log.debug("First army win the battle.");
-        } else {
-            log.debug("Second army win the battle.");
-        }
+        log.debug("{} army win the battle.", it1.hasNext() ? army1 : army2);
 
         return  it1.hasNext();
     }
