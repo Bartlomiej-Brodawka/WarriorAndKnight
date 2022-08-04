@@ -14,4 +14,8 @@ Creation of a new class - Defender with the ability to defend. Writing new unit 
 
 ## Vampires Implementation
 
-Creation of new class - Vampire with ability to drain life from opponent during attack. Writing parameterized unit tests, granual test and logging. 
+Creation of new class - Vampire with ability to drain life from opponent during attack. Writing parameterized unit tests, granual test and logging.
+
+## Lancers Implementation
+
+Creation of new class - Lancer with ability do pierce through first enemy and hit second enemy. Writing parameterized unit tests, granual test and logging.

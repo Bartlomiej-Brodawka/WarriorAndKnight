@@ -14,5 +14,7 @@
     <logger name="org.example.models.Defender" level="trace"/>
     <logger name="org.example.models.Warrior" level="trace"/>
     <logger name="org.example.models.Vampire" level="trace"/>
+    <logger name="org.example.models.Lancer" level="trace"/>
+    <logger name="org.example.models.Knight" level="trace"/>
 
 </configuration>

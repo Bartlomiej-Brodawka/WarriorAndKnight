@@ -135,6 +135,17 @@ class LancerSuitTest {
                                 .addUnits(Warrior::new, 1)
                                 .addUnits(Lancer::new, 2),
                         false
+                ),
+                Arguments.of(
+                        new Army()
+                                .addUnits(Lancer::new, 1)
+                                .addUnits(Knight::new, 1)
+                                .addUnits(Defender::new, 2),
+                        new Army()
+                                .addUnits(Warrior::new, 3)
+                                .addUnits(Warrior::new, 1)
+                                .addUnits(Lancer::new, 2),
+                        false
                 )
         );
     }
