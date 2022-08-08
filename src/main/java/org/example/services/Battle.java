@@ -44,4 +44,22 @@ public class Battle {
         return  it1.hasNext();
     }
 
+    public static boolean straightFight(Army army1, Army army2) {
+        log.debug("Straight fight battle between armies has began");
+
+        while (!army1.isEmpty()) {
+            int size = Math.min(army1.getSize(), army2.getSize());
+            log.debug("Index size {}", size);
+            for(int i = 0; i<size; i++) {
+                if(army1.get(i) != null && army2.get(i)!=null) {
+                    fight(army1.get(i),army2.get(i));
+                }
+            }
+            army1.removeDeadSoldiers();
+            army2.removeDeadSoldiers();
+        }
+
+        return !army1.isEmpty();
+    }
+
 }

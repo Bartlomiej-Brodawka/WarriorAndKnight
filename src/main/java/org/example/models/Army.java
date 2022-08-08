@@ -52,7 +52,30 @@ public class  Army {
             IWarrior next = factory.get();
             troops.add(next);
         }
-        lineup();
         return this;
+    }
+
+    public List<IWarrior> getTroops() {
+        return troops;
+    }
+
+    public int getSize() {
+        return troops.size();
+    }
+
+    public boolean isEmpty() {
+        return troops.isEmpty();
+    }
+
+    public IWarrior get(int i) {
+        return troops.get(i);
+    }
+
+    public void removeDeadSoldiers() {
+        for(int i = 0; i< troops.size(); i++) {
+            if(troops.get(i).getHealth()<=0) {
+                troops.remove(i);
+            }
+        }
     }
 }

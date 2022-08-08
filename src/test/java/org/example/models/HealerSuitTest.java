@@ -40,6 +40,8 @@ class HealerSuitTest {
     @MethodSource("provideArmyWarriors")
     @DisplayName("Battles between different kind of armies")
     void givenArmyFightArmy_thenCompareResult(Army army1, Army army2, boolean expectedResult) {
+        army1.lineup();
+        army2.lineup();
         var actualResult = Battle.fight(army1, army2);
         assertEquals(expectedResult, actualResult);
     }
