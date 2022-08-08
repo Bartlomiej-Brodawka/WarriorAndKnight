@@ -24,6 +24,11 @@ public class Defender extends Warrior implements HasDefence {
     }
 
     @Override
+    public int getInitialHealth() {
+        return INITIAL_HEALTH;
+    }
+
+    @Override
     public void receiveHit(IDamage damage) {
         log.trace("Defender has {} points of defense. Reduce damage to {} points.",
                 getDefense(), damage.hitPoints()-getDefense());

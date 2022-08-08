@@ -1,5 +1,6 @@
 package org.example.models;
 
+import org.example.models.interfaces.HealCommand;
 import org.example.models.interfaces.IDamage;
 import org.example.models.interfaces.IWarrior;
 import org.example.models.interfaces.Unit;
@@ -13,6 +14,7 @@ public class Warrior implements Unit, Cloneable, IWarrior {
     private int health;
     private int attack;
     private IWarrior warriorBehind;
+    private IWarrior warriorInFrontOf;
     private static final Logger log = LoggerFactory.getLogger(Warrior.class);
 
     @Override
@@ -46,15 +48,27 @@ public class Warrior implements Unit, Cloneable, IWarrior {
         return health;
     }
 
-    void setHealth(int health) {
+    @Override
+    public void setHealth(int health) {
         this.health = health;
     }
 
     @Override
+    public int getInitialHealth() {
+        return INITIAL_HEALTH;
+    }
+
+    @Override
     public void hit(IWarrior opponent) {
+        log.trace("{} hits {} with {} point of attack with {} point of health.",
+                this.getClass().getSimpleName(),
+                opponent.getClass().getSimpleName(),
+                this.getAttack(),
+                this.getHealth());
         opponent.receiveHit(
                 new SimpleDamage(getAttack(), this)
         );
+        processCommand(new HealCommand(), this);
     }
 
     @Override
@@ -71,5 +85,15 @@ public class Warrior implements Unit, Cloneable, IWarrior {
     @Override
     public void setWarriorBehind(IWarrior warrior) {
         warriorBehind = warrior;
+    }
+
+    @Override
+    public IWarrior getWarriorInFrontOf() {
+        return warriorInFrontOf;
+    }
+
+    @Override
+    public void setWarriorInFrontOf(IWarrior warrior) {
+        warriorInFrontOf = warrior;
     }
 }

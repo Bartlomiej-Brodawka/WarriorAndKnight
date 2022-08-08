@@ -1,6 +1,5 @@
 package org.example.models;
 
-import org.example.models.interfaces.Unit;
 import org.example.services.Battle;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

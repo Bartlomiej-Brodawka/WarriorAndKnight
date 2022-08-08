@@ -24,6 +24,11 @@ public class Vampire extends Warrior implements HasVampirism {
     }
 
     @Override
+    public int getInitialHealth() {
+        return INITIAL_HEALTH;
+    }
+
+    @Override
     public void hit(IWarrior opponent) {
         super.hit(opponent);
         if(opponent instanceof Defender defender) {

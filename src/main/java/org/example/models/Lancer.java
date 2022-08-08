@@ -16,8 +16,6 @@ public class Lancer extends Warrior{
     @Override
     public void hit(IWarrior opponent) {
         int healthBefore = opponent.getHealth();
-        log.trace("Lancer hits {} with {} points of attack.",
-                opponent.getClass().getSimpleName(), Lancer.ATTACK);
         super.hit(opponent);
         int damageDealtToTheFirst = healthBefore - opponent.getHealth();
 

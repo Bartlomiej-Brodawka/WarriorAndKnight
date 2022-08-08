@@ -36,8 +36,13 @@ public class  Army {
     }
 
     public Army lineup() {
-        for( int i = 1; i < troops.size(); i++) {
-            troops.get(i-1).setWarriorBehind(troops.get(i));
+        for(int i = 0; i < troops.size(); i++) {
+            if (i + 1 < troops.size()) {
+                troops.get(i).setWarriorBehind(troops.get(i + 1));
+            }
+            if (i - 1 >= 0) {
+                troops.get(i).setWarriorInFrontOf(troops.get(i - 1));
+            }
         }
         return this;
     }
@@ -45,11 +50,9 @@ public class  Army {
     Army addUnits(Supplier<Warrior> factory, int quantity) {
         for (int i = 0; i < quantity; i++) {
             IWarrior next = factory.get();
-            if(!troops.isEmpty()) {
-                troops.get(troops.size() - 1).setWarriorBehind(next);
-            }
             troops.add(next);
         }
+        lineup();
         return this;
     }
 }
