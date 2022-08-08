@@ -18,4 +18,8 @@ Creation of new class - Vampire with ability to drain life from opponent during 
 
 ## Lancers Implementation
 
-Creation of new class - Lancer with ability do pierce through first enemy and hit second enemy. Writing parameterized unit tests, granual test and logging.
+Creation of new class - Lancer with ability to pierce through first enemy and hit second enemy. Writing parameterized unit tests, granual test and logging.
+
+## Healers Implementation
+
+Creation of new class - Healer with ability to heal soldier in front of him. Writing parameterized unit tests, granual test and logging. 

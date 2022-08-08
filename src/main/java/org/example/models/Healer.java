@@ -20,13 +20,23 @@ public class Healer extends Warrior implements CanHeal {
     }
 
     @Override
+    public int getInitialHealth() {
+        return INITIAL_HEALTH;
+    }
+
+    @Override
     public void hit(IWarrior opponent) {}
 
     @Override
     public void processCommand(ICommand command, IWarrior sender) {
         if (command instanceof HealCommand && sender instanceof Healer && sender.getWarriorInFrontOf()!=null) {
             heal(sender.getWarriorInFrontOf());
-            log.trace(" {} health {}, initial {}", sender.getWarriorInFrontOf().getClass().getSimpleName(), sender.getWarriorInFrontOf().getHealth(), sender.getWarriorInFrontOf().getInitialHealth());
+            log.trace("{} heals {} with {} points of healing, left points of life {}.",
+                    this.getClass().getSimpleName(),
+                    sender.getWarriorInFrontOf().getClass().getSimpleName(),
+                    this.getHealPower(),
+                    sender.getWarriorInFrontOf().getHealth()
+                    );
         }
         super.processCommand(command, sender);
     }
