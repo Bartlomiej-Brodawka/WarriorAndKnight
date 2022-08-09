@@ -22,4 +22,8 @@ Creation of new class - Lancer with ability to pierce through first enemy and hi
 
 ## Healers Implementation
 
-Creation of new class - Healer with ability to heal soldier in front of him. Writing parameterized unit tests, granual test and logging. 
+Creation of new class - Healer with ability to heal soldier in front of him. Writing parameterized unit tests, granual test and logging.
+
+## Straight Fight Implementation
+
+Creation of new function straightFight() which enable new type of battle between armies. Writing parametrized unit tests and adding necessary logging.

@@ -10,6 +10,13 @@ import java.util.function.Supplier;
 
 public class  Army {
 
+    @Override
+    public String toString() {
+        return "Army{" +
+                "troops=" + troops +
+                '}';
+    }
+
     List<IWarrior> troops = new ArrayList<>();
 
     public Iterator<IWarrior> firstAlive() {
@@ -55,10 +62,6 @@ public class  Army {
         return this;
     }
 
-    public List<IWarrior> getTroops() {
-        return troops;
-    }
-
     public int getSize() {
         return troops.size();
     }
@@ -72,9 +75,13 @@ public class  Army {
     }
 
     public void removeDeadSoldiers() {
-        for(int i = 0; i< troops.size(); i++) {
+        int size = troops.size();
+
+        for(int i = 0; i< size; i++) {
+
             if(troops.get(i).getHealth()<=0) {
-                troops.remove(i);
+                troops.remove(i--);
+                size--;
             }
         }
     }

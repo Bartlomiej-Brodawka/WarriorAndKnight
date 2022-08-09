@@ -39,7 +39,7 @@ public class Battle {
             fight(it1.next(), it2.next());
         }
 
-        log.debug("{} army win the battle.", it1.hasNext() ? army1 : army2);
+        log.debug("{} army won the battle.", it1.hasNext() ? "First" : "Second");
 
         return  it1.hasNext();
     }
@@ -47,9 +47,8 @@ public class Battle {
     public static boolean straightFight(Army army1, Army army2) {
         log.debug("Straight fight battle between armies has began");
 
-        while (!army1.isEmpty()) {
+        while (!army1.isEmpty() && !army2.isEmpty()) {
             int size = Math.min(army1.getSize(), army2.getSize());
-            log.debug("Index size {}", size);
             for(int i = 0; i<size; i++) {
                 if(army1.get(i) != null && army2.get(i)!=null) {
                     fight(army1.get(i),army2.get(i));
@@ -58,6 +57,8 @@ public class Battle {
             army1.removeDeadSoldiers();
             army2.removeDeadSoldiers();
         }
+
+        log.debug("{} army won the battle.", !army1.isEmpty() ? "First" : "Second");
 
         return !army1.isEmpty();
     }
