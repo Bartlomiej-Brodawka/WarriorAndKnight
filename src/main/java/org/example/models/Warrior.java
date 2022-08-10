@@ -1,9 +1,6 @@
 package org.example.models;
 
-import org.example.models.interfaces.HealCommand;
-import org.example.models.interfaces.IDamage;
-import org.example.models.interfaces.IWarrior;
-import org.example.models.interfaces.Unit;
+import org.example.models.interfaces.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,5 +92,10 @@ public class Warrior implements Unit, Cloneable, IWarrior {
     @Override
     public void setWarriorInFrontOf(IWarrior warrior) {
         warriorInFrontOf = warrior;
+    }
+
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+
     }
 }

@@ -13,4 +13,5 @@ public interface IWarrior extends CanAttack, HasHealth{
             behind.processCommand(command, this);
         }
     }
+    void equipWeapon(IWeapon weapon);
 }
