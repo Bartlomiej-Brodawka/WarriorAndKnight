@@ -11,17 +11,28 @@ public class Healer extends Warrior implements CanHeal {
     private static final int HEAL_POWER = 2;
 
     private int healPower;
+    private int initialHealth;
 
     private static final Logger log = LoggerFactory.getLogger(Healer.class);
 
     public Healer() {
         super(INITIAL_HEALTH, ATTACK);
         this.healPower = HEAL_POWER;
+        this.initialHealth = INITIAL_HEALTH;
     }
 
     @Override
     public int getInitialHealth() {
-        return INITIAL_HEALTH;
+        return initialHealth;
+    }
+
+    public int getHealPower() {
+        return healPower;
+    }
+
+    @Override
+    public void setHealPower(int healPower) {
+        this.healPower = healPower;
     }
 
     @Override
@@ -41,7 +52,32 @@ public class Healer extends Warrior implements CanHeal {
         super.processCommand(command, sender);
     }
 
-    public int getHealPower() {
-        return healPower;
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        log.trace("{} is equipped with a {}",
+                this.getClass().getSimpleName(),
+                weapon
+        );
+        changeSoldierHealthByWeaponStats(weapon.getHealth());
+        changeSoldierHealPowerByWeaponStats(weapon.getHealPower());
+    }
+
+    private void changeSoldierHealPowerByWeaponStats(int healPowerPoints) {
+        setHealPower(Math.max(0, getHealPower()+healPowerPoints));
+        log.trace("{} heal power has been increased by {} points, now it is {} points",
+                this.getClass().getSimpleName(),
+                healPowerPoints,
+                getHealPower()
+        );
+    }
+
+    private void changeSoldierHealthByWeaponStats(int initialHealthPoints) {
+        var soldierHealthStatsWithWeaponStats = getHealth() + initialHealthPoints;
+        setHealth(Math.max(0,soldierHealthStatsWithWeaponStats));
+        log.trace("{} life has been increased by {} points, now it is {} points",
+                this.getClass().getSimpleName(),
+                initialHealthPoints,
+                getHealth()
+        );
     }
 }

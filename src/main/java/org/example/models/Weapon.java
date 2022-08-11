@@ -41,6 +41,7 @@ public class Weapon implements IWeapon {
                     .health(30)
                     .attack(3)
                     .healPower(3);
+
     public static IWeapon newSword(){
         return Sword.build();
     }

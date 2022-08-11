@@ -8,8 +8,4 @@ public class Rookie extends Warrior {
         super(50, ATTACK);
     }
 
-    @Override
-    public int getAttack() {
-        return 1;
-    }
 }

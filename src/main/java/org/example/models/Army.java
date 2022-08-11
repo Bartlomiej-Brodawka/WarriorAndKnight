@@ -1,6 +1,7 @@
 package org.example.models;
 
 import org.example.models.interfaces.IWarrior;
+import org.example.models.interfaces.IWeapon;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -84,5 +85,9 @@ public class  Army {
                 size--;
             }
         }
+    }
+
+    public void equipWarriorAtPosition(int index, IWeapon weapon) {
+        troops.get(index).equipWeapon(weapon);
     }
 }

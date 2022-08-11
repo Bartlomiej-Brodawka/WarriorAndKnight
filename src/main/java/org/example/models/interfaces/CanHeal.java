@@ -9,4 +9,5 @@ public interface CanHeal {
     }
 
     int getHealPower();
+    void setHealPower(int healPower);
 }

@@ -10,19 +10,10 @@ public class Warrior implements Unit, Cloneable, IWarrior {
     public static final int ATTACK = 5;
     private int health;
     private int attack;
+    private int initialHealth;
     private IWarrior warriorBehind;
     private IWarrior warriorInFrontOf;
     private static final Logger log = LoggerFactory.getLogger(Warrior.class);
-
-    @Override
-    public Warrior clone() {
-        try {
-            return (Warrior) super.clone();
-        } catch (CloneNotSupportedException ignored) {
-            //ignored
-        }
-        return null;
-    }
 
     public Warrior() {
         this(INITIAL_HEALTH, ATTACK);
@@ -31,6 +22,7 @@ public class Warrior implements Unit, Cloneable, IWarrior {
     protected Warrior(int health, int attack) {
         this.health = health;
         this.attack = attack;
+        this.initialHealth = health;
     }
     @Override
     public boolean isAlive() {
@@ -39,6 +31,11 @@ public class Warrior implements Unit, Cloneable, IWarrior {
 
     public int getAttack() {
         return attack;
+    }
+
+    @Override
+    public void setAttack(int attack) {
+        this.attack = attack;
     }
 
     public int getHealth() {
@@ -52,7 +49,12 @@ public class Warrior implements Unit, Cloneable, IWarrior {
 
     @Override
     public int getInitialHealth() {
-        return INITIAL_HEALTH;
+        return initialHealth;
+    }
+
+    @Override
+    public void setInitialHealth(int initialHealth) {
+        this.initialHealth = initialHealth;
     }
 
     @Override
@@ -96,6 +98,42 @@ public class Warrior implements Unit, Cloneable, IWarrior {
 
     @Override
     public void equipWeapon(IWeapon weapon) {
+        log.trace("{} is equipped with a {}",
+                this.getClass().getSimpleName(),
+                weapon
+                );
+        changeSoldierHealthByWeaponStats(weapon.getHealth());
+        changeSoldierAttackByWeaponStats(weapon.getAttack());
+    }
 
+    private void changeSoldierHealthByWeaponStats(int initialHealthPoints) {
+        var soldierHealthStatsWithWeaponStats = getHealth() + initialHealthPoints;
+        setInitialHealth(Math.max(0,soldierHealthStatsWithWeaponStats));
+        setHealth(getInitialHealth());
+        log.trace("{} life has been increased by {} points, now it is {} points",
+                this.getClass().getSimpleName(),
+                initialHealthPoints,
+                getHealth()
+        );
+    }
+
+    private void changeSoldierAttackByWeaponStats(int attackPoints) {
+        var soldierAttackStatsWithWeaponStats = getAttack() + attackPoints;
+        setAttack(Math.max(0,soldierAttackStatsWithWeaponStats));
+        log.trace("{} attack has been increased by {} points, now it is {} points",
+                this.getClass().getSimpleName(),
+                attackPoints,
+                getAttack()
+        );
+    }
+
+    @Override
+    public Warrior clone() {
+        try {
+            return (Warrior) super.clone();
+        } catch (CloneNotSupportedException ignored) {
+            //ignored
+        }
+        return null;
     }
 }
