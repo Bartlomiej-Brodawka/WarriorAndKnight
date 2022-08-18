@@ -72,6 +72,8 @@ public class Battle {
             }
             army1.removeDeadSoldiers();
             army2.removeDeadSoldiers();
+            army1.moveUnits();
+            army2.moveUnits();
         }
 
         log.debug("{} army won the battle.", !army1.isEmpty() ? "First" : "Second");
