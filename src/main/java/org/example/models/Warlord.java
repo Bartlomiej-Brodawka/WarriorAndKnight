@@ -22,6 +22,11 @@ public class Warlord extends Defender{
     }
 
     @Override
+    public boolean isAlive() {
+        return health > 0;
+    }
+
+    @Override
     public int getAttack() {
         return attack;
     }

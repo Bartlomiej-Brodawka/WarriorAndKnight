@@ -117,13 +117,27 @@ public class  Army {
                 .anyMatch(Healer.class::isInstance);
     }
 
-    public void moveFirstOtherSoldierToTheFrontInArmy() {
-
+    public boolean moveFirstOtherSoldierToTheFrontInArmy() {
         Iterator<IWarrior> it1 = troops.iterator();
 
         while(it1.hasNext()) {
             var soldier = it1.next();
             if(!(soldier instanceof Healer) && !(soldier instanceof Warlord) && soldier.isAlive()) {
+                var temp = troops.indexOf(soldier);
+                troops.remove(temp);
+                troops.add(0, soldier);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void moveAliveUnitToTheFront() {
+        Iterator<IWarrior> it1 = troops.iterator();
+
+        while(it1.hasNext()) {
+            var soldier = it1.next();
+            if(soldier instanceof Healer || soldier instanceof Warlord && soldier.isAlive()) {
                 var temp = troops.indexOf(soldier);
                 troops.remove(temp);
                 troops.add(0, soldier);
@@ -159,15 +173,17 @@ public class  Army {
     }
 
     public void moveHealersToTheSecondPosition() {
-        Iterator<IWarrior> it1 = troops.iterator();
+        if (!(troops.get(0) instanceof Healer)) {
+            Iterator<IWarrior> it1 = troops.iterator();
 
-        while(it1.hasNext()) {
-            var soldier = it1.next();
-            if(soldier instanceof Healer healer && healer.isAlive()) {
-                var temp = troops.indexOf(healer);
-                troops.remove(temp);
-                troops.add(1, healer);
-                break;
+            while (it1.hasNext()) {
+                var soldier = it1.next();
+                if (soldier instanceof Healer healer && healer.isAlive()) {
+                    var temp = troops.indexOf(healer);
+                    troops.remove(temp);
+                    troops.add(1, healer);
+                    break;
+                }
             }
         }
     }
@@ -178,11 +194,14 @@ public class  Army {
             if (isLancerInArmy()) {
                 moveLancersToTheFront();
             } else {
-                moveFirstOtherSoldierToTheFrontInArmy();
+                if(!moveFirstOtherSoldierToTheFrontInArmy()) {
+                    moveAliveUnitToTheFront();
+                }
             }
             if (isHealerInArmy()) {
                 moveHealersToTheSecondPosition();
             }
         }
+        removeDeadSoldiers();
     }
 }
