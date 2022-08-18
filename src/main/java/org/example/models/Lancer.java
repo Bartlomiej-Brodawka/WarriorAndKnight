@@ -25,7 +25,9 @@ public class Lancer extends Warrior{
             final int piercePower = 50;
             int damageToSecond = damageDealtToTheFirst*piercePower/100;
             log.trace("Lancer hits {} behind {} with {} points of attack.",
-                    nextBehind.getClass().getSimpleName(), opponent.getClass().getSimpleName(), damageToSecond);
+                    nextBehind.getClass().getSimpleName(),
+                    opponent.getClass().getSimpleName(),
+                    damageToSecond);
             nextBehind.receiveHit(
                     new SimpleDamage(damageToSecond, this)
             );

@@ -26,20 +26,20 @@ class WarlordSuitTest {
 
         myArmy.moveUnits();
         enemyArmy.moveUnits();
+        myArmy.lineup();
+        enemyArmy.lineup();
 
-// you can provide any other interface for testing the order
         assert myArmy.get(0).getClass() == Lancer.class;
         assert myArmy.get(1).getClass() == Healer.class;
-// negative index means from the last position, so -1 == last
+
         assert myArmy.get(myArmy.getSize()-1).getClass() == Warlord.class;
 
         assert enemyArmy.get(0).getClass() == Vampire.class;
         assert enemyArmy.get(enemyArmy.getSize()-1).getClass() == Warlord.class;
         assert enemyArmy.get(enemyArmy.getSize()-2).getClass() == Knight.class;
 
-//6, not 8, because only 1 Warlord per army could be
         assert enemyArmy.getSize() == 6;
 
-//        assert Battle.fight(myArmy, enemyArmy) == true;
+        assert Battle.fight(myArmy, enemyArmy) == true;
     }
 }

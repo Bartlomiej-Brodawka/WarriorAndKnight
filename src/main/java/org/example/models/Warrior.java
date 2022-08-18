@@ -74,7 +74,10 @@ public class Warrior implements Unit, Cloneable, IWarrior {
     @Override
     public void receiveHit(IDamage damage) {
         health -= damage.hitPoints();
-        log.trace("{} receive {} points of damage. {} points of life left.", this.getClass().getSimpleName(), damage.hitPoints(), this.getHealth());
+        log.trace("{} receive {} points of damage. {} points of life left.",
+                this.getClass().getSimpleName(),
+                damage.hitPoints(),
+                this.getHealth());
     }
 
     @Override

@@ -118,16 +118,18 @@ public class  Army {
     }
 
     public void moveFirstOtherSoldierToTheFrontInArmy() {
-        var soldier = troops.stream()
-                .filter(t -> t instanceof Warrior || t instanceof Knight)
-//                .filter(t -> t instanceof Knight)
-//                .filter(t -> t instanceof Defender)
-//                .filter(t -> t instanceof Vampire)
-                .findFirst()
-                .orElseThrow(NoSuchElementException::new);
-        var temp = troops.indexOf(soldier);
-        troops.remove(temp);
-        troops.add(0, soldier);
+
+        Iterator<IWarrior> it1 = troops.iterator();
+
+        while(it1.hasNext()) {
+            var soldier = it1.next();
+            if(!(soldier instanceof Healer) && !(soldier instanceof Warlord) && soldier.isAlive()) {
+                var temp = troops.indexOf(soldier);
+                troops.remove(temp);
+                troops.add(0, soldier);
+                break;
+            }
+        }
     }
 
     public void moveWarlordToTheEnd() {

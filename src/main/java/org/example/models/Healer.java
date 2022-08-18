@@ -48,6 +48,7 @@ public class Healer extends Warrior implements CanHeal {
                     this.getHealPower(),
                     sender.getWarriorInFrontOf().getHealth()
                     );
+            return;
         }
         super.processCommand(command, sender);
     }
