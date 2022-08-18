@@ -29,6 +29,7 @@ public class Warrior implements Unit, Cloneable, IWarrior {
         return health > 0;
     }
 
+    @Override
     public int getAttack() {
         return attack;
     }

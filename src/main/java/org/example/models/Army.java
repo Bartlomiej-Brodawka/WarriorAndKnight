@@ -1,5 +1,6 @@
 package org.example.models;
 
+import org.example.models.interfaces.HasHealth;
 import org.example.models.interfaces.IWarrior;
 import org.example.models.interfaces.IWeapon;
 
@@ -10,13 +11,6 @@ import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
 public class  Army {
-
-    @Override
-    public String toString() {
-        return "Army{" +
-                "troops=" + troops +
-                '}';
-    }
 
     List<IWarrior> troops = new ArrayList<>();
 
@@ -56,6 +50,13 @@ public class  Army {
     }
 
     Army addUnits(Supplier<Warrior> factory, int quantity) {
+        if (factory.get() instanceof Warlord warlord) {
+            if (troops.stream().noneMatch(Warlord.class::isInstance)) {
+                troops.add(warlord);
+            }
+            return this;
+        }
+
         for (int i = 0; i < quantity; i++) {
             IWarrior next = factory.get();
             troops.add(next);
@@ -89,5 +90,97 @@ public class  Army {
 
     public void equipWarriorAtPosition(int index, IWeapon weapon) {
         troops.get(index).equipWeapon(weapon);
+    }
+
+    @Override
+    public String toString() {
+        return "Army{" +
+                "troops=" + troops +
+                '}';
+    }
+
+    public boolean isWarlordInArmy() {
+        return troops.stream()
+                .filter(HasHealth::isAlive)
+                .anyMatch(Warlord.class::isInstance);
+    }
+
+    public boolean isLancerInArmy() {
+        return troops.stream()
+                .filter(HasHealth::isAlive)
+                .anyMatch(Lancer.class::isInstance);
+    }
+
+    public boolean isHealerInArmy() {
+        return troops.stream()
+                .filter(HasHealth::isAlive)
+                .anyMatch(Healer.class::isInstance);
+    }
+
+    public void moveFirstOtherSoldierToTheFrontInArmy() {
+        var soldier = troops.stream()
+                .filter(t -> t instanceof Warrior || t instanceof Knight)
+//                .filter(t -> t instanceof Knight)
+//                .filter(t -> t instanceof Defender)
+//                .filter(t -> t instanceof Vampire)
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
+        var temp = troops.indexOf(soldier);
+        troops.remove(temp);
+        troops.add(0, soldier);
+    }
+
+    public void moveWarlordToTheEnd() {
+        if(!(troops.get(getSize()-1) instanceof Warlord)) {
+            var warlord = troops.stream()
+                    .filter(Warlord.class::isInstance)
+                    .findAny()
+                    .orElseThrow(NoSuchElementException::new);
+
+            troops.remove(warlord);
+            troops.add(warlord);
+        }
+    }
+
+    public void moveLancersToTheFront() {
+        Iterator<IWarrior> it1 = troops.iterator();
+
+        while(it1.hasNext()) {
+            var soldier = it1.next();
+            if(soldier instanceof Lancer lancer && lancer.isAlive()) {
+                var temp = troops.indexOf(lancer);
+                troops.remove(temp);
+                troops.add(0, lancer);
+                break;
+            }
+        }
+    }
+
+    public void moveHealersToTheSecondPosition() {
+        Iterator<IWarrior> it1 = troops.iterator();
+
+        while(it1.hasNext()) {
+            var soldier = it1.next();
+            if(soldier instanceof Healer healer && healer.isAlive()) {
+                var temp = troops.indexOf(healer);
+                troops.remove(temp);
+                troops.add(1, healer);
+                break;
+            }
+        }
+    }
+
+    public void moveUnits() {
+        if(isWarlordInArmy()) {
+            moveWarlordToTheEnd();
+            if (isLancerInArmy()) {
+                moveLancersToTheFront();
+            } else {
+                moveFirstOtherSoldierToTheFrontInArmy();
+            }
+            if (isHealerInArmy()) {
+                moveHealersToTheSecondPosition();
+            }
+        }
     }
 }

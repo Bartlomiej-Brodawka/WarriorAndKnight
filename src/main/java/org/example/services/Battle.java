@@ -36,7 +36,11 @@ public class Battle {
         var it2 = army2.firstAlive();
 
         while(it1.hasNext() && it2.hasNext()) {
-            fight(it1.next(), it2.next());
+            if(fight(it1.next(), it2.next())) {
+                army2.moveUnits();
+            } else {
+                army1.moveUnits();
+            }
         }
 
         log.debug("{} army won the battle.", it1.hasNext() ? "First" : "Second");
