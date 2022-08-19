@@ -65,7 +65,7 @@ public class Battle {
 
         while (!army1.isEmpty() && !army2.isEmpty()) {
             int size = Math.min(army1.getSize(), army2.getSize());
-            for(int i = 0; i<size; i++) {
+            for(int i = 0; i < size; i++) {
                 if(army1.get(i) != null && army2.get(i)!=null) {
                     fight(army1.get(i),army2.get(i));
                 }

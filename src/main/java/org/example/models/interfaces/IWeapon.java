@@ -5,5 +5,6 @@ public interface IWeapon {
     int getAttack();
     int getDefense();
     int getVampirism();
-    int getHealPower() ;
+    int getHealPower();
+    String getName();
 }

@@ -4,6 +4,9 @@ import org.example.models.interfaces.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Warrior implements Unit, Cloneable, IWarrior {
 
     public static final int INITIAL_HEALTH = 50;
@@ -14,6 +17,7 @@ public class Warrior implements Unit, Cloneable, IWarrior {
     private IWarrior warriorBehind;
     private IWarrior warriorInFrontOf;
     private static final Logger log = LoggerFactory.getLogger(Warrior.class);
+    private List<IWeapon> weaponList = new ArrayList<>();
 
     public Warrior() {
         this(INITIAL_HEALTH, ATTACK);
@@ -102,9 +106,10 @@ public class Warrior implements Unit, Cloneable, IWarrior {
 
     @Override
     public void equipWeapon(IWeapon weapon) {
+        addWeaponToWeaponry(weapon);
         log.trace("{} is equipped with a {}",
                 this.getClass().getSimpleName(),
-                weapon
+                weapon.getName()
                 );
         changeSoldierHealthByWeaponStats(weapon.getHealth());
         changeSoldierAttackByWeaponStats(weapon.getAttack());
@@ -129,6 +134,53 @@ public class Warrior implements Unit, Cloneable, IWarrior {
                 attackPoints,
                 getAttack()
         );
+    }
+
+    @Override
+    public void looseWeaponBonuses(IWeapon weapon) {
+        reduceSoldierHealthByWeaponStats(weapon.getHealth());
+        reduceSoldierAttackByWeaponStats(weapon.getAttack());
+    }
+
+    private void reduceSoldierHealthByWeaponStats(int initialHealthPoints) {
+        var soldierHealthStatsWithWeaponStats = getHealth() - initialHealthPoints;
+        var soldierInitialHealthStatsWithWeaponStats = getInitialHealth() - initialHealthPoints;
+        setInitialHealth(Math.max(0,soldierInitialHealthStatsWithWeaponStats));
+        setHealth(soldierHealthStatsWithWeaponStats);
+        log.trace("{} life has been decreased by {} points, now it is {} points",
+                this.getClass().getSimpleName(),
+                initialHealthPoints,
+                getHealth()
+        );
+    }
+
+    private void reduceSoldierAttackByWeaponStats(int attackPoints) {
+        var soldierAttackStatsWithWeaponStats = getAttack() - attackPoints;
+        setAttack(Math.max(0,soldierAttackStatsWithWeaponStats));
+        log.trace("{} attack has been decreased by {} points, now it is {} points",
+                this.getClass().getSimpleName(),
+                attackPoints,
+                getAttack()
+        );
+    }
+
+    private void addWeaponToWeaponry(IWeapon weapon) {
+        weaponList.add(weapon);
+    }
+
+    @Override
+    public List<IWeapon> getWeapons() {
+        return weaponList;
+    }
+
+    @Override
+    public void cleanWeaponry() {
+        weaponList.clear();
+    }
+
+    @Override
+    public boolean isWeaponryEmpty() {
+        return weaponList.isEmpty();
     }
 
     @Override

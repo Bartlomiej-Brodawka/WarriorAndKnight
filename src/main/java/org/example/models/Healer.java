@@ -57,7 +57,7 @@ public class Healer extends Warrior implements CanHeal {
     public void equipWeapon(IWeapon weapon) {
         log.trace("{} is equipped with a {}",
                 this.getClass().getSimpleName(),
-                weapon
+                weapon.getName()
         );
         changeSoldierHealthByWeaponStats(weapon.getHealth());
         changeSoldierHealPowerByWeaponStats(weapon.getHealPower());
@@ -76,6 +76,33 @@ public class Healer extends Warrior implements CanHeal {
         var soldierHealthStatsWithWeaponStats = getHealth() + initialHealthPoints;
         setHealth(Math.max(0,soldierHealthStatsWithWeaponStats));
         log.trace("{} life has been increased by {} points, now it is {} points",
+                this.getClass().getSimpleName(),
+                initialHealthPoints,
+                getHealth()
+        );
+    }
+
+    @Override
+    public void looseWeaponBonuses(IWeapon weapon) {
+        reduceSoldierHealthByWeaponStats(weapon.getHealth());
+        reduceSoldierHealPowerByWeaponStats(weapon.getHealPower());
+    }
+
+    private void reduceSoldierHealPowerByWeaponStats(int healPowerPoints) {
+        setHealPower(Math.max(0, getHealPower() - healPowerPoints));
+        log.trace("{} heal power has been decreased by {} points, now it is {} points",
+                this.getClass().getSimpleName(),
+                healPowerPoints,
+                getHealPower()
+        );
+    }
+
+    private void reduceSoldierHealthByWeaponStats(int initialHealthPoints) {
+        var soldierHealthStatsWithWeaponStats = getHealth() - initialHealthPoints;
+        var soldierInitialHealthStatsWithWeaponStats = getInitialHealth() - initialHealthPoints;
+        setInitialHealth(Math.max(0,soldierInitialHealthStatsWithWeaponStats));
+        setHealth(soldierHealthStatsWithWeaponStats);
+        log.trace("{} life has been decreased by {} points, now it is {} points",
                 this.getClass().getSimpleName(),
                 initialHealthPoints,
                 getHealth()

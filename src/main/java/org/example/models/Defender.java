@@ -54,15 +54,32 @@ public class Defender extends Warrior implements HasDefence {
                 this.getHealth());
     }
 
+
+
     @Override
     public void equipWeapon(IWeapon weapon) {
         super.equipWeapon(weapon);
         changeSoldierDefenseByWeaponStats(weapon.getDefense());
     }
 
+    @Override
+    public void looseWeaponBonuses(IWeapon weapon) {
+        super.looseWeaponBonuses(weapon);
+        reduceSoldierDefenseByWeaponStats(weapon.getDefense());
+    }
+
     private void changeSoldierDefenseByWeaponStats(int defensePoints) {
         setDefense(Math.max(0,getDefense()+defensePoints));
         log.trace("{} defense has been increased by {} points, now it is {} points",
+                this.getClass().getSimpleName(),
+                defensePoints,
+                getDefense()
+        );
+    }
+
+    private void reduceSoldierDefenseByWeaponStats(int defensePoints) {
+        setDefense(Math.max(0,getDefense() - defensePoints));
+        log.trace("{} defense has been decreased by {} points, now it is {} points",
                 this.getClass().getSimpleName(),
                 defensePoints,
                 getDefense()
