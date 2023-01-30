@@ -1,6 +1,8 @@
 package org.example.models;
 
-import org.example.models.interfaces.Unit;
+import org.example.models.interfaces.HasHealth;
+import org.example.models.interfaces.IWarrior;
+import org.example.models.interfaces.IWeapon;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,13 +12,13 @@ import java.util.function.Supplier;
 
 public class  Army {
 
-    List<Warrior> troops = new ArrayList<>();
+    List<IWarrior> troops = new ArrayList<>();
 
-    public Iterator<Warrior> firstAlive() {
+    public Iterator<IWarrior> firstAlive() {
         return new FirstAliveIterator();
     }
 
-    private class FirstAliveIterator implements Iterator<Warrior> {
+    private class FirstAliveIterator implements Iterator<IWarrior> {
         int cursor = 0;
         @Override
         public boolean hasNext() {
@@ -27,7 +29,7 @@ public class  Army {
         }
 
         @Override
-        public Warrior next() {
+        public IWarrior next() {
             if(!hasNext()){
                 throw  new NoSuchElementException();
             }
@@ -35,39 +37,171 @@ public class  Army {
         }
     }
 
-    //enum example
-    void addUnits(Unit.UnitType type, int quantity) {
-        for (int i = 0; i < quantity; i++) {
-            troops.add((Warrior) Unit.newUnit(type));
-        }
-    }
-
-    //cloning example
-    void addUnits(Warrior prototype, int quantity) {
-        for (int i = 0; i < quantity; i++) {
-            troops.add(prototype.clone());
-        }
-    }
-
-    //fluent interface example
-    Army addUnits(Supplier<Warrior> factory, int quantity) {
-        for (int i = 0; i < quantity; i++) {
-            troops.add(factory.get());
+    public Army lineup() {
+        for(int i = 0; i < troops.size(); i++) {
+            if (i + 1 < troops.size()) {
+                troops.get(i).setWarriorBehind(troops.get(i + 1));
+            }
+            if (i - 1 >= 0) {
+                troops.get(i).setWarriorInFrontOf(troops.get(i - 1));
+            }
         }
         return this;
     }
 
-    //reflection example
-    public void addUnits(Class<? extends Unit> cls, int quantity){
-        try {
-            var constractor =  cls.getDeclaredConstructor();
-            for(int i=0; i< quantity; i++) {
-                var o = constractor.newInstance();
-                troops.add((Warrior) o);
+    Army addUnits(Supplier<Warrior> factory, int quantity) {
+        if (factory.get() instanceof Warlord warlord) {
+            if (troops.stream().noneMatch(Warlord.class::isInstance)) {
+                troops.add(warlord);
             }
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
+            return this;
+        }
+
+        for (int i = 0; i < quantity; i++) {
+            IWarrior next = factory.get();
+            troops.add(next);
+        }
+        return this;
+    }
+
+    public int getSize() {
+        return troops.size();
+    }
+
+    public boolean isEmpty() {
+        return troops.isEmpty();
+    }
+
+    public IWarrior get(int i) {
+        return troops.get(i);
+    }
+
+    public void removeDeadSoldiers() {
+        int size = troops.size();
+
+        for(int i = 0; i< size; i++) {
+
+            if(troops.get(i).getHealth()<=0) {
+                troops.remove(i--);
+                size--;
+            }
         }
     }
 
+    public void equipWarriorAtPosition(int index, IWeapon weapon) {
+        troops.get(index).equipWeapon(weapon);
+    }
+
+    @Override
+    public String toString() {
+        return "Army{" +
+                "troops=" + troops +
+                '}';
+    }
+
+    public boolean isWarlordInArmy() {
+        return troops.stream()
+                .filter(HasHealth::isAlive)
+                .anyMatch(Warlord.class::isInstance);
+    }
+
+    public boolean isLancerInArmy() {
+        return troops.stream()
+                .filter(HasHealth::isAlive)
+                .anyMatch(Lancer.class::isInstance);
+    }
+
+    public boolean isHealerInArmy() {
+        return troops.stream()
+                .filter(HasHealth::isAlive)
+                .anyMatch(Healer.class::isInstance);
+    }
+
+    public boolean moveFirstOtherSoldierToTheFrontInArmy() {
+        Iterator<IWarrior> it1 = troops.iterator();
+
+        while(it1.hasNext()) {
+            var soldier = it1.next();
+            if(!(soldier instanceof Healer) && !(soldier instanceof Warlord) && soldier.isAlive()) {
+                var temp = troops.indexOf(soldier);
+                troops.remove(temp);
+                troops.add(0, soldier);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void moveAliveUnitToTheFront() {
+        Iterator<IWarrior> it1 = troops.iterator();
+
+        while(it1.hasNext()) {
+            var soldier = it1.next();
+            if(soldier instanceof Healer || soldier instanceof Warlord && soldier.isAlive()) {
+                var temp = troops.indexOf(soldier);
+                troops.remove(temp);
+                troops.add(0, soldier);
+                break;
+            }
+        }
+    }
+
+    public void moveWarlordToTheEnd() {
+        if(!(troops.get(getSize()-1) instanceof Warlord)) {
+            var warlord = troops.stream()
+                    .filter(Warlord.class::isInstance)
+                    .findAny()
+                    .orElseThrow(NoSuchElementException::new);
+
+            troops.remove(warlord);
+            troops.add(warlord);
+        }
+    }
+
+    public void moveLancersToTheFront() {
+        Iterator<IWarrior> it1 = troops.iterator();
+
+        while(it1.hasNext()) {
+            var soldier = it1.next();
+            if(soldier instanceof Lancer lancer && lancer.isAlive()) {
+                var temp = troops.indexOf(lancer);
+                troops.remove(temp);
+                troops.add(0, lancer);
+                break;
+            }
+        }
+    }
+
+    public void moveHealersToTheSecondPosition() {
+        if (!(troops.get(0) instanceof Healer)) {
+            Iterator<IWarrior> it1 = troops.iterator();
+
+            while (it1.hasNext()) {
+                var soldier = it1.next();
+                if (soldier instanceof Healer healer && healer.isAlive()) {
+                    var temp = troops.indexOf(healer);
+                    troops.remove(temp);
+                    troops.add(1, healer);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void moveUnits() {
+        if(isWarlordInArmy()) {
+            moveWarlordToTheEnd();
+            if (isLancerInArmy()) {
+                moveLancersToTheFront();
+            } else {
+                if(!moveFirstOtherSoldierToTheFrontInArmy()) {
+                    moveAliveUnitToTheFront();
+                }
+            }
+            if (isHealerInArmy()) {
+                moveHealersToTheSecondPosition();
+            }
+        }
+        removeDeadSoldiers();
+    }
 }
